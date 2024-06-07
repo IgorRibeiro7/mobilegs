@@ -1,3 +1,5 @@
+import { db } from './FirebaseConfig';
+import { collection, addDoc } from 'firebase/firestore';
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, ImageBackground, Image, ScrollView, Alert } from 'react-native';
 
@@ -10,25 +12,41 @@ const FormularioScreen = ({ navigation }) => {
   const [qualidadeAgua, setQualidadeAgua] = useState('');
   const [salinidadeAgua, setSalinidadeAgua] = useState('');
   const [temperatura, setTemperatura] = useState('');
+  const [error, setError] = useState('');
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!phAgua || !biodiversidadeMarinha || !boiasMonitoramento || !cliente || !satelites || !qualidadeAgua || !salinidadeAgua || !temperatura) {
       Alert.alert('Erro', 'Por favor, preencha todos os campos obrigatórios.');
     } else {
-      // Lógica de envio do formulário aqui
-      // Limpar os campos após o envio
-      setPhAgua('');
-      setBiodiversidadeMarinha('');
-      setBoiasMonitoramento('');
-      setCliente('');
-      setSatelites('');
-      setQualidadeAgua('');
-      setSalinidadeAgua('');
-      setTemperatura('');
-      // Navegar para a próxima tela ou mostrar mensagem de sucesso
-      // navigation.navigate('ProximaTela');
-      Alert.alert('Sucesso', 'Formulário enviado com sucesso!');
-      navigation.navigate('Home'); // Retorna para a tela inicial após enviar
+      try {
+        // Adiciona os dados do formulário no Firestore
+        await addDoc(collection(db, 'oceanConditions'), {
+          phAgua,
+          biodiversidadeMarinha,
+          boiasMonitoramento,
+          cliente,
+          satelites,
+          qualidadeAgua,
+          salinidadeAgua,
+          temperatura,
+        });
+
+        // Limpa os campos após o envio
+        setPhAgua('');
+        setBiodiversidadeMarinha('');
+        setBoiasMonitoramento('');
+        setCliente('');
+        setSatelites('');
+        setQualidadeAgua('');
+        setSalinidadeAgua('');
+        setTemperatura('');
+
+        // Mostra mensagem de sucesso e navega para a tela inicial
+        Alert.alert('Sucesso', 'Formulário enviado com sucesso!');
+        navigation.navigate('Home');
+      } catch (error) {
+        setError('Erro ao enviar o formulário: ' + error.message);
+      }
     }
   };
 
@@ -37,6 +55,7 @@ const FormularioScreen = ({ navigation }) => {
       <ScrollView contentContainerStyle={styles.container}>
         <Image source={require('../assets/logo.png')} style={styles.logo} />
         <Text style={styles.title}>Formulário de Condições do Oceano</Text>
+        {error ? <Text style={styles.error}>{error}</Text> : null}
         <TextInput
           style={styles.input}
           placeholder="PH da água"
@@ -116,6 +135,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     color: '#fff',
     textAlign: 'center',
+  },
+  error: {
+    color: 'red',
+    marginBottom: 10,
   },
   input: {
     width: '100%',

@@ -7,6 +7,7 @@ import SignUpScreen from './components/cadastro.jsx';
 import SucessoLogin from './components/SucessoLogin.jsx';
 import EsqueciSenha from './components/EsqueciSenha.jsx';
 import Formulario from './components/Formulario.jsx';
+
 const Stack = createStackNavigator();
 
 const App = () => {
@@ -19,6 +20,7 @@ const App = () => {
         <Stack.Screen name="SucessoLogin" component={SucessoLogin} />
         <Stack.Screen name="EsqueciSenha" component={EsqueciSenha} />
         <Stack.Screen name="Formulario" component={Formulario} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );

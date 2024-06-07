@@ -1,3 +1,5 @@
+import { auth } from './FirebaseConfig';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, ImageBackground, Image } from 'react-native';
 
@@ -6,16 +8,19 @@ const LoginScreen = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (!email || !password) {
       setError('Por favor, preencha todos os campos.');
     } else {
-      // Lógica de autenticação aqui (simulado por uma setTimeout)
-      setTimeout(() => {
+      try {
+        // Autenticação com Firebase
+        await signInWithEmailAndPassword(auth, email, password);
         setError('');
         // Navegar para a página de sucesso após o login
         navigation.navigate('SucessoLogin');
-      }, 1000); // Simulando um tempo de autenticação
+      } catch (error) {
+        setError('Erro ao fazer login: ' + error.message);
+      }
     }
   };
 
@@ -23,22 +28,27 @@ const LoginScreen = ({ navigation }) => {
     <ImageBackground source={require('../assets/fundo.png')} style={styles.backgroundImage}>
       <View style={styles.container}>
         <Image source={require('../assets/logo.png')} style={styles.logo} />
-        <Text style={styles.title}>LOGIN</Text>
+        <Text style={[styles.title, styles.titleFont]}>LOGIN</Text>
         {error ? <Text style={styles.error}>{error}</Text> : null}
         <TextInput
-          style={styles.input}
+          style={[styles.input, styles.inputBackground]}
           placeholder="Email"
           placeholderTextColor="#555"
           value={email}
           onChangeText={text => setEmail(text)}
+          autoCapitalize="none"
+          color="#000" // Altera a cor do texto para preto
         />
         <TextInput
-          style={styles.input}
+          style={[styles.input, styles.inputBackground, styles.passwordInput]}
           placeholder="Senha"
           placeholderTextColor="#555"
           secureTextEntry
+          caretHidden // Esconde os asteriscos da senha
           value={password}
           onChangeText={text => setPassword(text)}
+          autoCapitalize="none"
+          color="#000" // Altera a cor do texto para preto
         />
         <TouchableOpacity style={styles.forgotPassword} onPress={() => navigation.navigate('EsqueciSenha')}>
           <Text style={styles.forgotPasswordText}>Esqueceu a senha?</Text>
@@ -75,6 +85,9 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     color: '#fff',
   },
+  titleFont: {
+    fontFamily: 'Glacial',
+  },
   error: {
     color: 'red',
     marginBottom: 10,
@@ -87,7 +100,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 10,
     paddingHorizontal: 10,
-    color: 'black',
+  },
+  inputBackground: {
+    backgroundColor: '#fff',
+  },
+  passwordInput: {
+    caretHidden: false, // Mostra os asteriscos em preto
   },
   forgotPassword: {
     alignSelf: 'flex-start',
@@ -111,4 +129,3 @@ const styles = StyleSheet.create({
 });
 
 export default LoginScreen;
-
