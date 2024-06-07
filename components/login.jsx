@@ -13,10 +13,10 @@ const LoginScreen = ({ navigation }) => {
       setError('Por favor, preencha todos os campos.');
     } else {
       try {
-        // Autenticação com Firebase
+      
         await signInWithEmailAndPassword(auth, email, password);
         setError('');
-        // Navegar para a página de sucesso após o login
+        
         navigation.navigate('SucessoLogin');
       } catch (error) {
         setError('Erro ao fazer login: ' + error.message);
@@ -37,18 +37,18 @@ const LoginScreen = ({ navigation }) => {
           value={email}
           onChangeText={text => setEmail(text)}
           autoCapitalize="none"
-          color="#000" // Altera a cor do texto para preto
+          color="#000" 
         />
         <TextInput
           style={[styles.input, styles.inputBackground, styles.passwordInput]}
           placeholder="Senha"
           placeholderTextColor="#555"
           secureTextEntry
-          caretHidden // Esconde os asteriscos da senha
+          caretHidden 
           value={password}
           onChangeText={text => setPassword(text)}
           autoCapitalize="none"
-          color="#000" // Altera a cor do texto para preto
+          color="#000" 
         />
         <TouchableOpacity style={styles.forgotPassword} onPress={() => navigation.navigate('EsqueciSenha')}>
           <Text style={styles.forgotPasswordText}>Esqueceu a senha?</Text>
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   passwordInput: {
-    caretHidden: false, // Mostra os asteriscos em preto
+    caretHidden: false, 
   },
   forgotPassword: {
     alignSelf: 'flex-start',

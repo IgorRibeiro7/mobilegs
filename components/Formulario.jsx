@@ -19,7 +19,7 @@ const FormularioScreen = ({ navigation }) => {
       Alert.alert('Erro', 'Por favor, preencha todos os campos obrigatórios.');
     } else {
       try {
-        // Adiciona os dados do formulário no Firestore
+        
         await addDoc(collection(db, 'oceanConditions'), {
           phAgua,
           biodiversidadeMarinha,
@@ -31,7 +31,7 @@ const FormularioScreen = ({ navigation }) => {
           temperatura,
         });
 
-        // Limpa os campos após o envio
+        
         setPhAgua('');
         setBiodiversidadeMarinha('');
         setBoiasMonitoramento('');
@@ -41,7 +41,7 @@ const FormularioScreen = ({ navigation }) => {
         setSalinidadeAgua('');
         setTemperatura('');
 
-        // Mostra mensagem de sucesso e navega para a tela inicial
+        
         Alert.alert('Sucesso', 'Formulário enviado com sucesso!');
         navigation.navigate('Home');
       } catch (error) {
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingHorizontal: 10,
     color: '#000',
-    backgroundColor: '#fff', // Cor da caixa de texto
+    backgroundColor: '#fff', 
   },
   submitButton: {
     backgroundColor: '#3498db',

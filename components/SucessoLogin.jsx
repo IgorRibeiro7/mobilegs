@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ImageBackground, TouchableOpacity } from 'react
 
 const SuccessScreen = ({ navigation }) => {
   const handleFormPress = () => {
-    // Lógica para redirecionar para a página do formulário após o login
+    
     navigation.navigate('Formulario');
   };
 

@@ -17,18 +17,18 @@ const SignUpScreen = ({ navigation }) => {
     } else {
       setError('');
       try {
-        // Cria o usuário no Firebase Authentication
+       
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
-        // Salva dados adicionais no Firestore
+        
         await setDoc(doc(firestore, 'users', user.uid), {
           name,
           email,
           phone,
         });
 
-        // Exibe uma mensagem de sucesso e navega para a tela de login
+        
         Alert.alert('Sucesso', 'Cadastro realizado com sucesso!', [
           { text: 'OK', onPress: () => navigation.navigate('Login') },
         ]);
@@ -41,7 +41,7 @@ const SignUpScreen = ({ navigation }) => {
   return (
     <ImageBackground source={require('../assets/fundo.png')} style={styles.backgroundImage}>
       <View style={styles.container}>
-        <Text style={[styles.title, { fontFamily: 'Glacial' }]}>CADASTRO</Text> {/* Altera a fonte para Glacial */}
+        <Text style={[styles.title, { fontFamily: 'Glacial' }]}>CADASTRO</Text> {}
         {error ? <Text style={styles.error}>{error}</Text> : null}
         <TextInput
           style={[styles.input, { backgroundColor: '#fff' }]}
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
-    fontFamily: 'Glacial', // Define a fonte como Glacial
+    fontFamily: 'Glacial', 
   },
   error: {
     color: 'red',

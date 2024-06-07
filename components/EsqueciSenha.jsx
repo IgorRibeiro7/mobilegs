@@ -9,9 +9,9 @@ const EsqueciSenhaScreen = ({ navigation }) => {
     if (!email) {
       setError('Por favor, preencha o campo de email.');
     } else {
-      // Lógica de redefinição de senha aqui
+      
       setError('');
-      // Mostrar mensagem de sucesso ou redirecionar para outra tela
+      
       alert('Um link para redefinição de senha foi enviado para o seu email.');
     }
   };
